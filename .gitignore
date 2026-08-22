@@ -1,0 +1,24 @@
+# House policy (see WILDLOGIC-HQ.md): docs/specs stay local, only web-serving files are public.
+*.md
+*.py
+*.json
+*.xlsx
+*.csv
+*.log
+.credential*
+.env*
+
+# Dev-only folders (local tooling + tests never deploy)
+tools/
+tests/
+
+# Town DB: per-town build artifacts stay local; merged file ships (fetched at runtime).
+data/towns/
+!data/towns.json
+
+# OS / IDE noise
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.qwen/

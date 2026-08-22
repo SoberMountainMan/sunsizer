@@ -1,0 +1,12 @@
+{
+  "name": "SunSizer ZA",
+  "short_name": "SunSizer",
+  "description": "Size your South African solar system off 12 months of real sun data for your town.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0a1426",
+  "theme_color": "#0a1426",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

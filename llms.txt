@@ -1,0 +1,12 @@
+# SunSizer ZA
+
+> Free South African solar sizing calculator. Sizes PV arrays, lithium batteries and hybrid inverters off 12 months of ERA5 satellite sun data for the user's specific town, engineering for the worst month (June–July in most of SA) instead of annual averages.
+
+- Free tool, no signup, no app install (installable PWA).
+- Outputs snap to real SA retail hardware classes: 5.12 kWh 51.2 V LiFePO4 battery modules, 3.6/5/6/8/10/12 kW single-phase hybrid inverter ladder.
+- Includes motor-start surge checks, temperature derating per month, itemised loss tree, indicative installed cost in Rand, and payback at the user's editable tariff.
+- Methodology, assumptions and data attribution are published on the page (§Methodology).
+- Data: ERA5 reanalysis via Open-Meteo Archive API, CC BY 4.0, © ECMWF / Copernicus.
+- Not engineering advice; final design and COC by a qualified installer.
+
+Key questions this tool answers: what size solar system for load shedding, how many panels per kW inverter, battery size for essentials, solar cost South Africa, worst-month winter output.

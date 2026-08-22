@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solar Calculator South Africa — Sized on Real Sun Data | SunSizer ZA</title>
+<meta name="description" content="What size solar system do you need for load shedding? Free SA solar calculator sized on 12 months of real sun data for your town — panels, kVA inverter, battery, honest payback in Rands.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a1426">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SunSizer ZA">
+<meta property="og:title" content="Solar Calculator South Africa — Sized on Real Sun Data | SunSizer ZA">
+<meta property="og:description" content="What size solar system do you need for load shedding? Free SA solar calculator sized on 12 months of real sun data for your town — panels, kVA inverter, battery, honest payback in Rands.">
+<meta property="og:url" content="https://sunsizer.co.za/">
+<meta property="og:image" content="https://sunsizer.co.za/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="SunSizer ZA — night-sky artwork with sun and solar panel">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Why does everyone else’s calculator disagree?","acceptedAnswer":{"@type":"Answer","text":"Most use annual-average sunshine. We size on your town's worst month from 12 months of satellite data (ERA5), so June doesn't embarrass your quote."}},
+{"@type":"Question","name":"What size solar system do I need for load shedding in South Africa?","acceptedAnswer":{"@type":"Answer","text":"For essential loads (fridge, lights, Wi-Fi, TV, gate motor), a 3.6–5 kW hybrid inverter with one 5.12 kWh lithium battery and 4–6 panels covers 4-hour stages comfortably. SunSizer sizes this off your town's actual worst-month sun data."}},
+{"@type":"Question","name":"Do solar panels work in winter in South Africa?","acceptedAnswer":{"@type":"Answer","text":"Yes, but output drops 40–60% from summer peaks depending on your region. That is why SunSizer sizes your system on your town's worst month, so it still delivers in June instead of failing your first winter."}},
+{"@type":"Question","name":"What angle should solar panels face in South Africa?","acceptedAnswer":{"@type":"Answer","text":"True north, tilted at roughly your latitude for balanced year-round output (e.g., ~26° in Johannesburg, ~34° in Cape Town). Add up to 15° of tilt if winter output matters most, since load-shedding season is winter."}},
+{"@type":"Question","name":"How much does a 5kW solar system cost in South Africa in 2026?","acceptedAnswer":{"@type":"Answer","text":"Typical installed range is R80 000–R140 000 depending on panels, battery capacity and roof complexity. SunSizer builds an itemised estimate from current component pricing you can adjust."}},
+{"@type":"Question","name":"Can a solar battery run a geyser during load shedding?","acceptedAnswer":{"@type":"Answer","text":"Not recommended. A 2 kW geyser element empties a 5 kWh battery in about two hours. Keep geysers, stoves and heaters off backup circuits and put them in your bill-offset plan instead."}},
+{"@type":"Question","name":"Do I need permission to feed solar power back into the grid in South Africa?","acceptedAnswer":{"@type":"Answer","text":"Yes. If your system exports to the municipal grid or Eskom, you must register as a small-scale electricity generator (SSEG) and use a NRS 097-compliant inverter. Your installer handles the paperwork."}},
+{"@type":"Question","name":"Is this a quote?","acceptedAnswer":{"@type":"Answer","text":"No. It's a planning specification from public climate data and typical hardware prices. Get 2–3 quotes from qualified installers — a compliant install needs a COC."}},
+{"@type":"Question","name":"What will a 3.6 kW or 5 kVA inverter run during load shedding?","acceptedAnswer":{"@type":"Answer","text":"Comfortably: fridge and freezer, lights, Wi-Fi, TV, laptop charging, alarm and gate motor together — that is the essentials pack, about 870 W even if everything ran at once (they don't). A kettle or microwave is fine for a couple of minutes. A geyser, stove or heater is a no — resistive heat flattens a battery in hours."}},
+{"@type":"Question","name":"How long will a 5 kWh battery last during load shedding?","acceptedAnswer":{"@type":"Answer","text":"A 5.12 kWh LiFePO4 module delivers about 4.4 kWh usable after depth-of-discharge and inverter losses. Carrying a typical essentials pack that is roughly 4–6 hours of a typical evening; discipline stretches it further (TV off, geyser never). Size the bank for the stage length you actually experience."}},
+{"@type":"Question","name":"How many solar panels for a 5 kVA inverter with battery?","acceptedAnswer":{"@type":"Answer","text":"5 kVA is about 4 kW continuous (0.8 power factor). With current 590 W panels, 6–9 panels (3.5–5.3 kWp) is typical so the battery still charges in winter. A DC-to-AC ratio of 1.2–1.4 is normal in South Africa because June output matters more than summer clipping."}},
+{"@type":"Question","name":"Is solar worth it in South Africa?","acceptedAnswer":{"@type":"Answer","text":"Usually, but be honest about the goal. Backup-only systems protect your essentials from load shedding; at R3/kWh they often pay back in 9–14 years because they only offset the circuits they carry. Bill-offset systems sized on your real usage typically pay back in 4–8 years, faster every April as tariffs climb about 12% a year. Model both scenarios in a sizing calculator and compare."}},
+{"@type":"Question","name":"kVA vs kW — what is the difference for solar?","acceptedAnswer":{"@type":"Answer","text":"kW is real power doing work; kVA is apparent power — roughly kW divided by 0.8 for a typical home. South African inverters are marketed in kVA, so a 5 kVA unit delivers about 4 kW continuous. Size the array and battery on your kWh needs and the inverter on your simultaneous watts."}}
+]}
+</script>
+<style>
+:root{
+  --bg0:#070d18;--bg1:#0c1628;
+  --ink:#e9eef7;--hi:#ffffff;--mut:#93a6bc;
+  --card:rgba(148,180,220,.055);--line:rgba(148,180,220,.15);
+  --acc:#f2b23e;--acc2:#ffd98a;--grn:#3ddba0;
+  --glow:rgba(242,178,62,.30);
+  --shadow:0 14px 40px rgba(2,6,16,.5),inset 0 1px 0 rgba(255,255,255,.055);
+}
+*{box-sizing:border-box;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);line-height:1.5;
+  background:radial-gradient(1100px 560px at 82% -12%,rgba(242,178,62,.09),transparent 62%),
+             radial-gradient(900px 520px at -12% 18%,rgba(56,189,248,.07),transparent 58%),
+             linear-gradient(180deg,var(--bg1) 0%,var(--bg0) 100%);
+  background-attachment:fixed}
+::selection{background:var(--glow)}
+header.top{padding:22px 16px 16px;border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(16,28,48,.85),rgba(10,20,38,.35));backdrop-filter:blur(10px)}
+header.top .wrap{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:14px}
+header.top img,header.top svg.logo{width:42px;height:42px;border-radius:11px;box-shadow:0 4px 18px rgba(242,178,62,.22)}
+header.top svg.logo .sunpulse{animation:pulse 4.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.92}50%{opacity:.55}}
+h1{font-size:21px;margin:0;font-weight:800;letter-spacing:-.02em;color:var(--hi)}
+h1 .za{color:var(--acc)}
+.tag{font-size:13.5px;margin-top:3px;color:var(--mut)}
+.badge{margin-left:auto;font-size:11px;font-weight:600;color:var(--acc2);
+  background:rgba(242,178,62,.08);border:1px solid rgba(242,178,62,.32);
+  border-radius:999px;padding:4px 11px;white-space:nowrap}
+main{max-width:860px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:18px;margin:14px 0;backdrop-filter:blur(14px);box-shadow:var(--shadow)}
+.stepnum{display:inline-flex;width:23px;height:23px;border-radius:50%;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--acc2),var(--acc));color:#201503;
+  font-size:13px;font-weight:800;margin-right:9px}
+.card h2{font-size:15px;margin:0 0 10px;font-weight:700;color:var(--hi)}
+label{font-size:13px;font-weight:600;display:block;margin:10px 0 4px}
+small.hint{color:var(--mut);font-weight:400}
+input[type=text],input[type=number],select{width:100%;padding:11px;border:1px solid var(--line);
+  border-radius:10px;font-size:15px;background:rgba(7,13,24,.55);color:var(--ink)}
+input::placeholder{color:#5d708a}
+input:focus,select:focus{outline:2px solid var(--acc);outline-offset:1px;border-color:transparent}
+select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.chip,.presetbtn{border:1px solid var(--line);background:rgba(148,180,220,.06);border-radius:999px;
+  padding:7px 15px;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink);transition:all .18s ease}
+.chip:hover,.presetbtn:hover{border-color:rgba(242,178,62,.5)}
+.chip.on,.presetbtn.on{background:linear-gradient(135deg,var(--acc2),var(--acc));border-color:transparent;
+  color:#201503;box-shadow:0 2px 12px var(--glow)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:6px}
+.seg button{border:0;background:transparent;padding:8px 15px;font-size:13px;font-weight:600;cursor:pointer;color:var(--mut);transition:all .18s ease}
+.seg button.on{background:linear-gradient(135deg,var(--acc2),var(--acc));color:#201503}
+.appliance{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px dashed rgba(148,180,220,.12);font-size:14px}
+.appliance:last-child{border-bottom:0}
+.appliance input[type=checkbox]{width:17px;height:17px;accent-color:var(--acc)}
+.appliance .nm{flex:1}
+.appliance small{color:var(--mut)}
+.appliance .wh{white-space:nowrap;font-variant-numeric:tabular-nums}
+.grouphead{font-size:12px;text-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin:14px 0 2px}
+.warnnote{font-size:12.5px;background:rgba(242,178,62,.07);border-left:3px solid var(--acc);
+  padding:9px 11px;border-radius:6px;margin:8px 0 0;color:var(--acc2)}
+button.primary{background:linear-gradient(135deg,#ffce73,#ee9d2f);color:#201503;border:0;border-radius:12px;
+  padding:15px 18px;font-size:16px;font-weight:800;width:100%;margin-top:12px;cursor:pointer;
+  box-shadow:0 6px 24px var(--glow);transition:transform .18s ease,box-shadow .18s ease}
+button.primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 9px 30px var(--glow)}
+button.primary:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+.geo{background:rgba(61,219,160,.08);border:1px solid rgba(61,219,160,.3);border-radius:10px;padding:9px 13px;
+  font-size:13px;font-weight:600;cursor:pointer;color:var(--grn);margin-bottom:8px;transition:border-color .18s ease}
+.geo:hover{border-color:rgba(61,219,160,.65)}
+#townList{list-style:none;margin:6px 0 0;padding:0;border:1px solid var(--line);border-radius:10px;
+  background:#101c30;max-height:220px;overflow:auto;box-shadow:var(--shadow)}
+#townList li{padding:11px;font-size:14px;cursor:pointer}
+#townList li:hover,#townList li.sel{background:rgba(242,178,62,.1)}
+.tally{position:sticky;bottom:64px;z-index:5;background:rgba(10,18,34,.92);backdrop-filter:blur(10px);
+  color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 15px;font-size:13.5px;
+  margin-top:10px;display:none;box-shadow:var(--shadow)}
+.tally b{color:var(--acc2)}
+details{border:1px solid var(--line);border-radius:12px;margin-top:10px;background:rgba(148,180,220,.04)}
+summary{cursor:pointer;font-size:13.5px;font-weight:700;padding:11px 13px;color:var(--hi);border-radius:12px}
+summary:hover{background:rgba(148,180,220,.05)}
+.dbody{padding:0 13px 13px;font-size:13.5px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid rgba(148,180,220,.1);font-variant-numeric:tabular-nums}
+th{font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+tr.worst td{background:rgba(242,178,62,.09);font-weight:600}
+.err{color:#ff9b9b;font-size:13.5px;margin-top:8px;display:none}
+.out{display:none}
+.hero{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:16px;padding:20px;margin:14px 0;
+  background:radial-gradient(420px 200px at 88% -30%,var(--glow),transparent 70%),
+             linear-gradient(135deg,#14233f,#0c1730);box-shadow:var(--shadow)}
+.hero h2{margin:0;font-size:18px;font-weight:800;letter-spacing:-.01em;
+  background:linear-gradient(90deg,#ffe3a8,#f2b23e 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:7px 0 0;font-size:14px;color:var(--mut)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;
+  backdrop-filter:blur(14px);box-shadow:var(--shadow);transition:border-color .18s ease}
+.stat:hover{border-color:rgba(242,178,62,.4)}
+.stat b{display:block;font-size:23px;line-height:1.25;letter-spacing:-.02em;
+  background:linear-gradient(90deg,#ffe3a8,#f0a63a);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.07em}
+.notecard{background:rgba(61,219,160,.07);border:1px solid rgba(61,219,160,.2);border-radius:10px;
+  padding:11px 13px;font-size:13.5px;margin:8px 0;color:#bfeee0}
+.lead{background:linear-gradient(135deg,rgba(242,178,62,.09),rgba(148,180,220,.04));
+  border:1px solid rgba(242,178,62,.35);border-radius:16px;padding:17px;margin:14px 0;box-shadow:var(--shadow)}
+.lead h2{margin-top:0;color:var(--hi)}
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.btnrow>*{flex:1;min-width:140px}
+.btnwa{background:#1fa855;color:#fff;border:0;border-radius:12px;padding:13px;font-size:15px;font-weight:700;
+  cursor:pointer;display:block;width:100%;transition:filter .18s ease}
+.btnwa:hover{filter:brightness(1.12)}
+.btnsec{background:rgba(148,180,220,.07);color:var(--ink);border:1px solid var(--line);border-radius:12px;
+  padding:13px;font-size:15px;font-weight:600;cursor:pointer;display:block;width:100%;transition:border-color .18s ease}
+.btnsec:hover{border-color:rgba(242,178,62,.5)}
+.consent{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--mut);margin-top:10px}
+.consent input{margin-top:2px;accent-color:var(--acc)}
+.faq dt{font-weight:700;font-size:14px;margin-top:12px;color:var(--hi)}
+.faq dd{margin:4px 0 0;font-size:13.5px;color:var(--mut)}
+footer.site{font-size:12px;text-align:center;color:var(--mut);padding:18px 14px 90px;line-height:1.7}
+footer.site a{color:inherit;text-decoration:none}
+footer.site a:hover{color:var(--acc)}
+.stickycta{position:fixed;left:0;right:0;bottom:0;background:rgba(10,18,34,.9);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);padding:10px 14px;display:none;z-index:9}
+.stickycta .in{max-width:832px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.stickycta span{font-size:13px;font-weight:700;flex:1;color:var(--hi)}
+.stickycta button{background:linear-gradient(135deg,#ffce73,#ee9d2f);color:#201503;border:0;border-radius:10px;
+  padding:11px 18px;font-weight:800;font-size:14px;cursor:pointer;box-shadow:0 4px 16px var(--glow)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{
+ :root{--bg0:#fff;--bg1:#fff;--ink:#111;--hi:#111;--mut:#555;--card:#fff;--line:#bbb;--acc:#0e7a4c;--acc2:#333;--grn:#0e7a4c;--glow:none;--shadow:none}
+ body{background:#fff!important}
+ header.top{background:#fff!important;border-bottom:2px solid #000;padding:10px 0;backdrop-filter:none}
+ header.top svg.logo .sunpulse{animation:none}
+ .hero,.stat b,.hero h2{background:#f5f5f5!important;-webkit-text-fill-color:#111!important;color:#111!important;box-shadow:none}
+ .stat b,.hero h2{-webkit-text-fill-color:#111!important;color:#111!important}
+ main{max-width:100%}
+ .no-print,.stickycta,.tally,.lead,button,.seg,.chips,.geo{display:none!important}
+ .out{display:block!important}
+ .card,details{break-inside:avoid;border-color:#bbb;background:#fff;backdrop-filter:none;box-shadow:none}
+ .printonly{display:block!important;font-size:12px;color:#333}
+ tr.worst td{background:#fbf6ec}
+}
+.printonly{display:none}
+</style>
+</head>
+<body>
+
+<header class="top">
+ <div class="wrap">
+  <svg class="logo" viewBox="0 0 64 64" role="img" aria-label="SunSizer ZA logo">
+   <defs>
+    <linearGradient id="htile" x1="0" y1="0" x2="1" y2="1">
+     <stop offset="0" stop-color="#1a2c4e"/><stop offset="1" stop-color="#0a1426"/>
+    </linearGradient>
+    <radialGradient id="hglow" cx=".5" cy=".34" r=".62">
+     <stop offset="0" stop-color="#f2b23e" stop-opacity=".5"/><stop offset="1" stop-color="#f2b23e" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="hsun" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#ffe3a8"/><stop offset="1" stop-color="#ee9d2f"/>
+    </linearGradient>
+    <linearGradient id="hpanel" x1="0" y1="0" x2="1" y2="1">
+     <stop offset="0" stop-color="#31b585"/><stop offset="1" stop-color="#14563f"/>
+    </linearGradient>
+   </defs>
+   <rect width="64" height="64" rx="14" fill="url(#htile)"/>
+   <rect width="64" height="64" rx="14" fill="url(#hglow)"/>
+   <circle class="sunpulse" cx="32" cy="22" r="8.5" fill="url(#hsun)"/>
+   <g stroke="#ffd98a" stroke-width="2.4" stroke-linecap="round" opacity=".92">
+    <line x1="32" y1="10.5" x2="32" y2="7.5"/><line x1="32" y1="33.5" x2="32" y2="36.5"/>
+    <line x1="20.5" y1="22" x2="17.5" y2="22"/><line x1="43.5" y1="22" x2="46.5" y2="22"/>
+    <line x1="40.1" y1="13.9" x2="42.3" y2="11.7"/><line x1="23.9" y1="13.9" x2="21.7" y2="11.7"/>
+    <line x1="40.1" y1="30.1" x2="42.3" y2="32.3"/><line x1="23.9" y1="30.1" x2="21.7" y2="32.3"/>
+   </g>
+   <g transform="translate(13,42)">
+    <rect width="38" height="15" rx="2.5" fill="url(#hpanel)"/>
+    <g stroke="#0a1426" stroke-width="1.4" opacity=".55">
+     <line x1="12.67" y1="0" x2="12.67" y2="15"/><line x1="25.33" y1="0" x2="25.33" y2="15"/>
+     <line x1="0" y1="7.5" x2="38" y2="7.5"/>
+    </g>
+    <rect x=".8" y=".8" width="36.4" height="3.2" rx="2" fill="#ffffff" opacity=".14"/>
+   </g>
+  </svg>
+  <div><h1>SunSizer<span class="za"> ZA</span></h1><div class="tag">Your roof. Your sun. Your numbers.</div></div>
+  <span class="badge">v0.9 · beta</span>
+ </div>
+</header>
+
+<main>
+
+<!-- 1 · LOCATION -->
+<div class="card">
+ <h2><span class="stepnum">1</span>Where is the system going?</h2>
+ <button type="button" class="geo" id="geoBtn">📍 Use my location</button>
+ <input type="text" id="town" placeholder="Or type your town… e.g. Hogsback, Makhanda, Pretoria" autocomplete="off" aria-label="Town search">
+ <ul id="townList" style="display:none"></ul>
+ <div id="townPicked" class="notecard" style="display:none"></div>
+</div>
+
+<!-- 2 · GOAL -->
+<div class="card">
+ <h2><span class="stepnum">2</span>What must the system do?</h2>
+ <select id="goal" aria-label="Goal">
+  <option value="backup">Survive load-shedding — keep essentials running</option>
+  <option value="offset">Cut my electricity bill by a target %</option>
+  <option value="offgrid">Run my home fully off-grid</option>
+ </select>
+ <div id="hoursWrap"><label>Load-shedding window per stage</label>
+  <div class="chips" id="hourChips"></div></div>
+ <label>Electricity usage — find “units used” on your bill</label>
+ <div class="seg" role="group" aria-label="Usage input mode">
+  <button type="button" id="modeKwh" class="on">kWh / month</button>
+  <button type="button" id="modeR">Rands / month</button>
+ </div>
+ <div class="row">
+  <div id="kwhWrap"><input type="number" id="kwh" value="600" min="50" max="5000" aria-label="Monthly kWh">
+   <small class="hint">Small home ≈ 300 · medium ≈ 600 · large ≈ 1000 kWh</small></div>
+  <div id="rWrap" style="display:none"><input type="number" id="rand" value="1800" min="50" aria-label="Monthly rand spend">
+   <small class="hint">We convert using the tariff below</small></div>
+  <div id="pctWrap" style="display:none"><label>Offset target (%)</label><input type="number" id="pct" value="70" min="10" max="100"></div>
+ </div>
+ <details id="adv"><summary>⚙ Advanced — tariff, panel size, appliance detail</summary>
+  <div class="dbody">
+   <div class="row">
+    <div><label>Tariff (R/kWh)</label><input type="number" id="tariff" value="3.00" step="0.05" min="0.5">
+     <small class="hint">Eskom direct ≈ R2.71–2.90 (2026); municipal varies. Editable — payback uses this.</small></div>
+    <div><label>Panel wattage</label><select id="panelW">
+     <option value="455">455 W</option><option value="550">550 W</option>
+     <option value="590" selected>590 W</option><option value="620">620 W</option></select>
+     <small class="hint">590 W is the current SA retail favourite</small></div>
+   </div>
+   <label style="margin-top:12px">Per-appliance watts &amp; hours</label>
+   <small class="hint">Edit any value below — averages are typical SA figures.</small>
+   <div id="appEdit"></div>
+  </div>
+ </details>
+</div>
+
+<!-- 3 · APPLIANCES -->
+<div class="card" id="applianceCard">
+ <h2><span class="stepnum">3</span>Tick what must stay on</h2>
+ <div class="chips">
+  <button type="button" class="presetbtn on" data-preset="essentials">Essentials pack</button>
+  <button type="button" class="presetbtn" data-preset="home">Whole home</button>
+  <button type="button" class="presetbtn" data-preset="none">Clear</button>
+ </div>
+ <div id="appList"></div>
+ <div class="warnnote" id="kitNote" style="display:none">Kitchen &amp; laundry items are usually kept OFF backup circuits — they flatten a battery fast. They still count toward your bill-offset plan.</div>
+</div>
+
+<div class="err" id="err" role="alert"></div>
+<button class="primary" id="calc" disabled>Calculate my system</button>
+
+<div class="tally" id="tally"></div>
+
+<!-- RESULTS -->
+<div class="out" id="out">
+ <div class="hero">
+  <h2 id="resHero"></h2>
+  <p id="resSub"></p>
+ </div>
+ <div class="grid">
+  <div class="stat"><b id="stKw"></b><span>array (<span id="stPanels"></span>)</span></div>
+  <div class="stat"><b id="stInv"></b><span>hybrid inverter</span></div>
+  <div class="stat"><b id="stBatt"></b><span>battery</span></div>
+  <div class="stat"><b id="stCost"></b><span>installed est.*</span></div>
+ </div>
+ <div id="starterWrap" style="display:none" class="chips">
+  <button type="button" class="chip" id="starterBtn"></button>
+ </div>
+ <div id="notes"></div>
+
+ <div class="card no-print">
+  <h2>Your 12 months of sun — <span id="sunTown"></span></h2>
+  <table><thead><tr><th>Month</th><th>Sun (peak hrs/day)</th><th>Avg temp</th><th>Est. output*</th><th>Covers usage</th></tr></thead>
+  <tbody id="monthRows"></tbody></table>
+  <small class="hint" id="genFootNote"></small>
+ </div>
+
+ <details open><summary>📋 Itemised estimate &amp; payback</summary>
+  <div class="dbody">
+   <table><tbody id="costRows"></tbody></table>
+   <p id="savingsLine" style="font-size:14px"></p>
+   <details><summary>Adjust component pricing (installers: use your own rates)</summary>
+    <div class="dbody">
+     <div class="row">
+      <div><label>R / panel</label><input type="number" id="cPanel" step="50"></div>
+      <div><label>R / kW inverter</label><input type="number" id="cInv" step="100"></div>
+     </div>
+     <div class="row">
+      <div><label>R / kWh battery</label><input type="number" id="cBatt" step="100"></div>
+      <div><label>BOS &amp; install base R</label><input type="number" id="cBos" step="500"></div>
+     </div>
+    </div>
+   </details>
+  </div>
+ </details>
+
+ <details><summary>🔧 Engineering detail (why these numbers)</summary>
+  <div class="dbody" id="engBody"></div>
+ </details>
+
+ <!-- LEAD -->
+ <div class="lead no-print">
+  <h2>Take this spec with you</h2>
+  <p style="font-size:13.5px;margin-top:0">Send it to yourself, an installer, or your partner — the link rebuilds this exact result.</p>
+  <div class="btnrow">
+   <button type="button" class="btnwa" id="waBtn">WhatsApp this spec</button>
+   <button type="button" class="btnsec" id="shareBtn">Copy / share link</button>
+   <button type="button" class="btnsec" onclick="window.print()">Print spec sheet</button>
+  </div>
+  <div id="leadWrap" style="display:none">
+   <label style="margin-top:14px">Or get 3 installer quotes for this exact spec</label>
+   <div class="row">
+    <input type="text" id="leadName" placeholder="First name">
+    <input type="tel" id="leadPhone" placeholder="WhatsApp number, e.g. 0821234567">
+   </div>
+   <label class="consent"><input type="checkbox" id="consent">
+    <span>I agree that SunSizer ZA may pass my name, number and this specification to up to 3 local installers to quote me (POPIA). Nothing else is stored or shared.</span></label>
+   <button class="primary" id="leadSubmit" disabled>Request quotes</button>
+   <div class="err" id="leadErr"></div>
+  </div>
+ </div>
+</div>
+
+<!-- TRUST -->
+<div class="card" id="faq">
+ <h2>Honest answers</h2>
+ <dl class="faq">
+  <dt>Why does everyone else’s calculator disagree?</dt>
+  <dd>Most use annual-average sunshine. We size on your town’s <b>worst month</b> from 12 months of satellite data (ERA5), so June doesn’t embarrass your quote.</dd>
+  <dt>What size system do I need for load shedding?</dt>
+  <dd>Essentials (fridge, lights, Wi-Fi, TV, gate) run happily on a 3.6–5 kW hybrid with one 5.12 kWh battery and 4–6 panels. Run your own numbers above — takes a minute.</dd>
+  <dt>Do panels work in winter?</dt>
+  <dd>Yes, but expect 40–60% less than summer depending on region. Heat also trims panel output — our engine models both, per month.</dd>
+  <dt>Which way should panels face in SA?</dt>
+  <dd>True north, tilted ≈ your latitude. Add up to 15° if winter matters most — load-shedding season is winter.</dd>
+  <dt>Can the battery carry my geyser?</dt>
+  <dd>No — a 2 kW element empties a 5 kWh battery in ~2 hours. Geyser/stove/heater belong in the bill-offset plan (or gas/solar thermal).</dd>
+  <dt>May I feed extra power back into the grid?</dt>
+  <dd>Only as a registered SSEG generator with a NRS 097-compliant inverter. Your installer handles the application.</dd>
+  <dt>Is this a quote?</dt>
+  <dd>No. It’s a planning specification from public climate data and typical hardware prices. Get 2–3 quotes from qualified installers — a compliant install needs a COC.</dd>
+  <dt>What will a 3.6 kW or 5 kVA inverter run during load shedding?</dt>
+  <dd>Comfortably: fridge and freezer, lights, Wi-Fi, TV, laptop charging, alarm and gate motor together — that’s the essentials pack, about 870 W even if everything ran at once (they don’t). A kettle or microwave is fine for a couple of minutes. A geyser, stove or heater is a no — resistive heat flattens a battery in hours.</dd>
+  <dt>How long will a 5 kWh battery last during load shedding?</dt>
+  <dd>A 5.12 kWh LiFePO4 module delivers about 4.4 kWh usable after depth-of-discharge and inverter losses. Carrying a typical essentials pack that’s roughly 4–6 hours of a typical evening; discipline stretches it further (TV off, geyser never). Size the bank for the stage length you actually experience.</dd>
+  <dt>How many solar panels for a 5 kVA inverter with battery?</dt>
+  <dd>5 kVA is about 4 kW continuous (0.8 power factor). With current 590 W panels, 6–9 panels (3.5–5.3 kWp) is typical so the battery still charges in winter. A DC-to-AC ratio of 1.2–1.4 is normal in South Africa because June output matters more than summer clipping.</dd>
+  <dt>How much does a 5kW solar system cost in South Africa in 2026?</dt>
+  <dd>Typical installed range is R80 000–R140 000 depending on panels, battery capacity and roof complexity. SunSizer builds an itemised estimate from current component pricing you can adjust.</dd>
+  <dt>Is solar worth it in South Africa?</dt>
+  <dd>Usually, but be honest about the goal. Backup-only systems protect your essentials from load shedding; at R3/kWh they often pay back in 9–14 years because they only offset the circuits they carry. Bill-offset systems sized on your real usage typically pay back in 4–8 years, faster every April as tariffs climb about 12% a year. Model both scenarios above and compare.</dd>
+  <dt>kVA vs kW — what is the difference for solar?</dt>
+  <dd>kW is real power doing work; kVA is apparent power — roughly kW divided by 0.8 for a typical home. South African inverters are marketed in kVA, so a “5 kVA” unit delivers about 4 kW continuous. Size the array and battery on your kWh needs and the inverter on your simultaneous watts.</dd>
+ </dl>
+</div>
+
+<div class="card" id="method">
+ <h2>Methodology (for the engineers)</h2>
+ <div class="dbody" style="padding:0">
+  <ul style="font-size:13px;margin:0;padding-left:18px;line-height:1.7">
+   <li><b>Data:</b> ERA5 satellite-derived daily solar radiation &amp; temperature, past 12 months, via Open-Meteo Archive API (CC BY 4.0, © ECMWF / Copernicus).</li>
+   <li><b>Peak sun hours:</b> radiation sum MJ/m² ÷ 3.6 → equivalent hours at 1 kW/m².</li>
+   <li><b>Array energy:</b> kW<sub>p</sub> × PSH × derate, per month. Derate = soiling 3% × mismatch 2% × DC wiring 2% × inverter 4% × AC wiring 0.5% × availability 1% × temperature factor.</li>
+   <li><b>Temperature:</b> cell ≈ ambient + 28 °C (flush roof); −0.34 %/°C from 25 °C — typical mono PERC.</li>
+   <li><b>Battery:</b> load ÷ (0.90 DoD × 0.96 inverter eff.), LiFePO4 51.2 V modules.</li>
+   <li><b>Inverter:</b> diversified continuous peak × 1.25, snapped to the SA retail ladder (3.6/5/6/8/10/12 kW single-phase, 16+ three-phase); motor-start surge checked against 2× rated (10 s).</li>
+   <li><b>Excluded:</b> shading, roof geometry, degradation (&lt;0.6 %/yr — immaterial year one), tariffs escalation (payback shown flat; Eskom tariffs rose ≈12 %/yr average over the last decade).</li>
+   <li><b>Not engineering advice.</b> Final design, SSEG registration and COC by a qualified installer.</li>
+  </ul>
+ </div>
+</div>
+
+<footer class="site">
+ SunSizer ZA v<span id="verTxt"></span> · a <a href="https://wildlogic.co.za" rel="noopener">WildLogic</a> project · free forever.<br>
+ Sun data: Open-Meteo (ERA5 / ECMWF Copernicus, CC BY 4.0). Hardware names refer to common SA retail classes; no affiliation.<br>
+ *Indicative pricing checked Aug 2026 — get 3 quotes. POPIA: we store nothing unless you ask us to.
+</footer>
+
+</main>
+
+<div class="stickycta" id="sticky"><div class="in"><span id="stickyTxt"></span><button onclick="document.getElementById('out').scrollIntoView({behavior:'smooth'})">See my system</button></div></div>
+
+<div class="printonly" id="printHead" style="margin:8px 0">
+ <b>System specification</b> — generated <span id="prDate"></span> for <span id="prTown"></span> by SunSizer ZA v<span id="prVer"></span>. Planning estimate, not a quote.
+</div>
+
+<script src="engine.js"></script>
+<script>
+'use strict';
+/* ================= OWNER CONFIG — fill these two when going live ================= */
+const OWNER = {
+  WA_NUMBER: '',          // TODO(owner): WhatsApp number in international format, e.g. '27821234567'. Empty = WhatsApp-lead button hidden.
+  LEAD_WEBHOOK: '',       // TODO(owner): n8n webhook URL that receives {name,phone,spec} for installer lead-matching. Empty = form hidden.
+  ANALYTICS_WEBHOOK: ''   // TODO(owner): n8n webhook URL for anonymous calc events {event,goal,town,ts}. Empty = no-op.
+};
+/* ================================================================================= */
+
+const $ = id => document.getElementById(id);
+const LS_KEY = 'ssza_v1';
+let TOWN = null, TOWNS_DB = null, RESULT = null, MODE = 'kwh';
+
+/* ---------- appliances UI ---------- */
+function appState() { // resolved list for the engine
+  return APPLIANCES.map(a => {
+    const s = state.apps[a.id] || {};
+    return { ...a, on: s.on !== undefined ? s.on : a.on, w: s.w || a.w, h: s.h || a.h };
+  });
+}
+const state = { town: null, apps: {}, tariff: CFG.TARIFF_DEFAULT_R };
+try { Object.assign(state, JSON.parse(localStorage.getItem(LS_KEY) || '{}')); } catch (e) {}
+
+function renderAppliances() {
+  const cats = { ess: 'Keep me running (typical backup circuits)', kit: 'Kitchen & laundry', out: 'Heating, cooling & outdoor' };
+  const resolved = appState();
+  let html = '';
+  for (const c of ['ess', 'kit', 'out']) {
+    html += `<div class="grouphead">${cats[c]}</div>`;
+    for (const a of resolved.filter(x => x.cat === c)) {
+      html += `<div class="appliance"><input type="checkbox" id="cb_${a.id}" ${a.on ? 'checked' : ''}>
+        <span class="nm">${a.n}${a.note ? ` <small>(${a.note})</small>` : ''}</span>
+        <span class="wh"><small>${a.w} W × ${a.h} h</small></span></div>`;
+    }
+  }
+  $('appList').innerHTML = html;
+  resolved.forEach(a => { $('cb_' + a.id).addEventListener('change', e => { state.apps[a.id] = { ...(state.apps[a.id] || {}), on: e.target.checked }; renderAppliances(); }); });
+  $('kitNote').style.display = resolved.some(a => a.cat === 'kit' && a.on) ? 'block' : 'none';
+  renderAppEdit(); tally();
+}
+function renderAppEdit() {
+  $('appEdit').innerHTML = appState().map(a => `<div class="appliance"><span class="nm">${a.n}</span>
+    <input type="number" style="width:90px" min="1" value="${a.w}" aria-label="watts" onchange="setApp('${a.id}','w',this.value)">
+    <input type="number" style="width:70px" min="0" step="0.25" value="${a.h}" aria-label="hours" onchange="setApp('${a.id}','h',this.value)"></div>`).join('');
+}
+window.setApp = (id, k, v) => { v = parseFloat(v); if (v >= 0) { state.apps[id] = { ...(state.apps[id] || {}), [k]: v }; tally(); } };
+window.setPreset = p => {
+  document.querySelectorAll('.presetbtn').forEach(b => b.classList.toggle('on', b.dataset.preset === p));
+  const on = p === 'essentials' ? ['fridge','lights','router','tv','charge','alarm','gatem']
+           : p === 'home' ? APPLIANCES.filter(a => !['geyser','oven','dryer','dish','iron','heater'].includes(a.id)).map(a => a.id)
+           : [];
+  APPLIANCES.forEach(a => { state.apps[a.id] = { ...(state.apps[a.id] || {}), on: on.includes(a.id) }; });
+  renderAppliances();
+};
+document.querySelectorAll('.presetbtn').forEach(b => b.addEventListener('click', () => setPreset(b.dataset.preset)));
+
+function tally() {
+  const on = appState().filter(a => a.on);
+  if (!on.length) { $('tally').style.display = 'none'; return; }
+  const peak = on.reduce((s, a) => s + a.w, 0);
+  const kwh = on.reduce((s, a) => s + a.w * a.h / 1000, 0);
+  $('tally').style.display = 'block';
+  $('tally').innerHTML = `Ticked loads: <b>${Math.round(peak)} W</b> if all run at once · <b>${kwh.toFixed(1)} kWh/day</b>`;
+}
+
+/* ---------- goal-dependent fields ---------- */
+$('goal').addEventListener('change', () => {
+  const g = $('goal').value;
+  $('hoursWrap').style.display = g === 'backup' ? 'block' : 'none';
+  $('pctWrap').style.display = g === 'offset' ? 'block' : 'none';
+});
+const HOURS_CHIPS = [2, 4, 6, 8];
+let hours = (state.hoursVal) || 4;
+$('hourChips').innerHTML = HOURS_CHIPS.map(h => `<button type="button" class="chip${h === hours ? ' on' : ''}" data-h="${h}">${h} h</button>`).join('') ;
+$('hourChips').addEventListener('click', e => {
+  const b = e.target.closest('[data-h]'); if (!b) return;
+  hours = +b.dataset.h; state.hoursVal = hours;
+  $('hourChips').querySelectorAll('.chip').forEach(c => c.classList.toggle('on', +c.dataset.h === hours));
+});
+$('modeKwh').onclick = () => setMode('kwh'); $('modeR').onclick = () => setMode('rand');
+function setMode(m) { MODE = m; $('modeKwh').classList.toggle('on', m === 'kwh'); $('modeR').classList.toggle('on', m === 'rand');
+  $('kwhWrap').style.display = m === 'kwh' ? 'block' : 'none'; $('rWrap').style.display = m === 'rand' ? 'block' : 'none'; }
+
+/* ---------- town: static dataset → geocoding ---------- */
+const TOWNS_READY = (async () => { try { const r = await fetch('data/towns.json'); if (r.ok) TOWNS_DB = await r.json(); } catch (e) {} })();
+
+let deb, resultsCache = [];
+$('town').addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(search, 350); });
+$('town').addEventListener('keydown', e => { if (e.key === 'Enter' && resultsCache.length) pick(resultsCache[0]); });
+async function search() {
+  const q = $('town').value.trim(); const list = $('townList');
+  if (q.length < 3) { list.style.display = 'none'; return; }
+  // static DB first (instant, works offline)
+  if (TOWNS_DB) {
+    const nq = q.toLowerCase();
+    const hits = TOWNS_DB.towns.filter(t => t.n.toLowerCase().includes(nq)).slice(0, 8);
+    if (hits.length) { showList(hits.map(t => ({ name: t.n, admin1: t.p, lat: t.y, lon: t.x, db: true }))); return; }
+  }
+  try {
+    const r = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q)}&count=8&language=en&format=json`);
+    const j = await r.json();
+    const za = (j.results || []).filter(x => x.country_code === 'ZA');
+    if (!za.length) { list.innerHTML = '<li>No South African match — try the nearest town</li>'; list.style.display = 'block'; return; }
+    showList(za.map(x => ({ name: x.name, admin1: x.admin1 || 'South Africa', lat: x.latitude, lon: x.longitude })));
+  } catch (e) { showErr('Town search failed — check your connection. ' + e.message); }
+}
+function showList(items) {
+  resultsCache = items;
+  const list = $('townList');
+  list.innerHTML = items.map((t, i) => `<li data-i="${i}">${t.name}, ${t.admin1}</li>`).join('');
+  list.style.display = 'block';
+  list.querySelectorAll('li').forEach(li => li.onclick = () => pick(resultsCache[+li.dataset.i]));
+}
+function pick(t) {
+  TOWN = { name: t.name, admin1: t.admin1, lat: t.lat, lon: t.lon, db: !!t.db };
+  $('townList').style.display = 'none';
+  $('townPicked').style.display = 'block';
+  $('townPicked').textContent = `✔ ${t.name}, ${t.admin1} (${t.lat.toFixed(2)}, ${t.lon.toFixed(2)})`;
+  $('calc').disabled = false;
+  state.town = TOWN; save();
+}
+$('geoBtn').onclick = () => {
+  if (!navigator.geolocation) return showErr('Geolocation not supported on this browser.');
+  $('geoBtn').textContent = '📍 Locating…';
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const { latitude: la, longitude: lo } = pos.coords;
+    let name = `Your location (${la.toFixed(2)}, ${lo.toFixed(2)})`, prov = 'South Africa', db = false;
+    if (TOWNS_DB) { // nearest known town
+      let best = null, bd = 1e9;
+      for (const t of TOWNS_DB.towns) { const d = (t.y - la) ** 2 + (t.x - lo) ** 2; if (d < bd) { bd = d; best = t; } }
+      if (best && bd < 0.25) { name = best.n; prov = best.p; db = true; }
+    }
+    $('geoBtn').textContent = '📍 Use my location';
+    pick({ name, admin1: prov, lat: la, lon: lo, db });
+  }, err => { $('geoBtn').textContent = '📍 Use my location'; showErr('Could not get location: ' + err.message); }, { timeout: 10000 });
+};
+
+/* ---------- sun data ---------- */
+function staticMonths() {
+  if (!TOWN.db || !TOWNS_DB) return null;
+  const t = TOWNS_DB.towns.find(x => x.n === TOWN.name && Math.abs(x.y - TOWN.lat) < 0.02);
+  if (!t) return null;
+  const DIM = [31, 28.25, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return enrichMonths(DIM.map((d, i) => ({ m: i, name: MONTHS[i], days: d, psh: t.m[i][0], tavg: t.m[i][1] })));
+}
+async function liveMonths() {
+  const end = new Date(Date.now() - 6 * 864e5), start = new Date(end.getTime() - 364 * 864e5);
+  const iso = d => d.toISOString().slice(0, 10);
+  const r = await fetch(`https://archive-api.open-meteo.com/v1/archive?latitude=${TOWN.lat}&longitude=${TOWN.lon}&start_date=${iso(start)}&end_date=${iso(end)}&daily=shortwave_radiation_sum,temperature_2m_mean&timezone=Africa%2FJohannesburg`);
+  const j = await r.json();
+  if (!j.daily) throw new Error(j.reason || 'no data');
+  return enrichMonths(monthAgg(j.daily.time, j.daily.shortwave_radiation_sum, j.daily.temperature_2m_mean));
+}
+
+/* ---------- calc ---------- */
+$('calc').onclick = run;
+async function run() {
+  const err = $('err'); err.style.display = 'none';
+  const btn = $('calc'); btn.disabled = true; btn.textContent = 'Reading 12 months of sun for your town…';
+  // component-price inputs must always hold values before sizing
+  if (!$('cPanel').value) $('cPanel').value = CFG.COSTS.panelR;
+  if (!$('cInv').value) $('cInv').value = CFG.COSTS.invPerKwR;
+  if (!$('cBatt').value) $('cBatt').value = CFG.COSTS.battPerKwhR;
+  if (!$('cBos').value) $('cBos').value = CFG.COSTS.bosBaseR;
+  try {
+    let months = staticMonths();
+    if (!months) months = await liveMonths();
+    const kwhM = MODE === 'kwh' ? +$('kwh').value : Math.round(+$('rand').value / (+$('tariff').value || CFG.TARIFF_DEFAULT_R));
+    RESULT = sizeSystem({
+      goal: $('goal').value, kwhM, hours, pct: +$('pct').value,
+      tariffR: +$('tariff').value, panelW: +$('panelW').value,
+      apps: appState(), months, battStarter: state.battStarter,
+      costOverrides: {
+        panelR: +$('cPanel').value || undefined, invPerKwR: +$('cInv').value || undefined,
+        battPerKwhR: +$('cBatt').value || undefined, bosBaseR: +$('cBos').value || undefined,
+      }
+    });
+    render(); save(); updateUrl(); beacon('calc', { goal: RESULT.goal, town: TOWN.name, kw: RESULT.panelWKw, batt: RESULT.battInstalledKwh });
+    $('out').style.display = 'block'; $('sticky').style.display = 'block';
+    $('stickyTxt').textContent = `${RESULT.panels}× ${RESULT.panelW} W · ${RESULT.inverter.cls} kW · ${RESULT.battModules ? RESULT.battInstalledKwh + ' kWh' : 'battery later'}`;
+    $('out').scrollIntoView({ behavior: 'smooth' });
+  } catch (e) { showErr('Could not read sun data: ' + e.message); }
+  btn.disabled = false; btn.textContent = 'Calculate my system';
+}
+function showErr(m) { const e = $('err'); e.textContent = m; e.style.display = 'block'; }
+
+/* ---------- render ---------- */
+function fmtR(v) { return 'R' + Math.round(v).toLocaleString('en-ZA'); }
+const HERO = {
+  backup: (r) => [`Load-shedding proof for ${r.hours} h — every day, even in ${r.worstMonth.name}.`,
+    `${r.panels} panels refill the battery while it carries your essentials. Sized on ${r.worstMonth.name}'s real sun (${r.worstMonth.psh.toFixed(1)} peak hours/day), not wishful averages.`],
+  offset: (r) => [`Cut ~${Math.round(r.pct)}% off your bill.`,
+    `${r.panelWKw.toFixed(1)} kWp of panels generates ≈ ${Math.round(r.genAnnual).toLocaleString()} kWh/year. In June that still covers ≈ ${r.juneCoveragePct}% of your usage.`],
+  offgrid: (r) => [`Off-grid, sized for your worst month.`,
+    `${r.panelWKw.toFixed(1)} kWp array + ${r.battInstalledKwh.toFixed(1)} kWh storage (1.5 days autonomy). Heat loads (cooking/geyser) should go gas or solar-thermal — see notes.`]
+};
+function render() {
+  const r = RESULT;
+  const [h1, h2] = HERO[r.goal](r);
+  $('resHero').textContent = h1; $('resSub').textContent = h2;
+  $('stKw').textContent = r.panelWKw.toFixed(1) + ' kWp'; $('stPanels').textContent = r.panels + '× ' + r.panelW + ' W';
+  $('stInv').textContent = r.inverter.cls + ' kW' + (r.inverter.threePhase ? ' 3φ' : '');
+  $('stBatt').textContent = r.battModules ? r.battModules + '× 5.12 kWh' : 'add later';
+  $('stCost').textContent = fmtR(r.costs.total * 0.85) + '–' + fmtR(r.costs.total * 1.15);
+  $('sunTown').textContent = TOWN.name;
+  const kwhM = r.kwhM;
+  $('monthRows').innerHTML = r.months.map(m => `<tr class="${m.name === r.worstMonth.name ? 'worst' : ''}">
+    <td>${m.name}</td><td>${m.psh.toFixed(1)}</td><td>${m.tavg != null ? m.tavg.toFixed(0) + ' °C' : '—'}</td>
+    <td>${Math.round(m.genKwh)} kWh</td><td>${kwhM ? Math.round(m.genKwh / kwhM * 100) + '%' : '—'}</td></tr>`).join('');
+  $('genFootNote').textContent = `Output = array × sun hours × losses (soiling, wiring, inverter, heat). Worst month highlighted — that’s what your system must survive.`;
+  $('notes').innerHTML = r.notes.map(n => `<div class="notecard">💡 ${n}</div>`).join('');
+  // starter battery chip for offset
+  if (r.goal === 'offset' && !state.battStarter) {
+    $('starterWrap').style.display = 'flex';
+    $('starterBtn').textContent = '+ Add 1× 5.12 kWh battery module (≈' + fmtR(CFG.BATT_MODULE_KWH * (+$('cBatt').value || CFG.COSTS.battPerKwhR)) + ') — lifts evening self-use to ~85%';
+  } else $('starterWrap').style.display = 'none';
+  $('starterBtn').onclick = () => { state.battStarter = true; save(); run(); };
+  // costs
+  const c = r.costs;
+  $('costRows').innerHTML = [
+    ['Panels — ' + r.panels + '× ' + r.panelW + ' W', c.panels],
+    ['Hybrid inverter — ' + r.inverter.cls + ' kW class', c.inverter],
+    r.battModules ? ['Battery — ' + r.battModules + '× 5.12 kWh LiFePO4', c.battery] : null,
+    ['Mounting, wiring, COC & install', c.bos],
+    ['<b>Indicative total (±15%)</b>', '<b>' + fmtR(c.total) + '</b>'],
+  ].filter(Boolean).map(x => `<tr><td>${x[0]}</td><td style="text-align:right">${x[1]}</td></tr>`).join('');
+  $('savingsLine').innerHTML = r.savingsAnnual > 0
+    ? `⚡ Saves ≈ <b>${fmtR(r.savingsAnnual)}</b>/year at R${(+$('tariff').value).toFixed(2)}/kWh (self-use ${Math.round(r.selfUse * 100)}%). Simple payback ≈ <b>${r.paybackYears} years</b> — faster every April, when tariffs jump.${r.goal === 'backup' ? ' <small class="hint">(Honest maths: a backup system only offsets the circuits it carries — not the whole bill.)</small>' : ''}`
+    : '';
+  $('engBody').innerHTML = `
+    <table>
+     <tr><td>Essential loads ticked</td><td>${Math.round(r.contPeakRaw)} W raw · ${Math.round(r.divPeak)} W diversified · ${Math.round(r.essKwhDay * 10) / 10} kWh/day</td></tr>
+     <tr><td>Motor-start check</td><td>${Math.round(r.surgeNeedW)} W needed vs ${Math.round(r.inverter.cls * 2000)} W available (2× for 10 s) — ${r.inverter.surgeOk ? 'OK' : '<b style="color:#a33">tight</b>'}</td></tr>
+     <tr><td>Array → inverter ratio</td><td>${r.dcAcRatio} (typical 1.2–1.4)</td></tr>
+     <tr><td>Worst month derate</td><td>${(r.worstMonth.derate * 100).toFixed(1)}% — cell temp ≈ ${(r.worstMonth.tavg + 28).toFixed(0)} °C, −0.34 %/°C from 25 °C</td></tr>
+     <tr><td>Annual specific yield</td><td>${Math.round(r.annualYieldPerKwp)} kWh per kWp (SA range ≈ 1,550–2,100)</td></tr>
+     <tr><td>Battery chain</td><td>load ÷ (0.90 DoD × 0.96 inverter) → ${r.battModules || 0} × 5.12 kWh 51.2 V modules</td></tr>
+    </table>`;
+  $('prTown').textContent = TOWN.name; $('prDate').textContent = new Date().toISOString().slice(0, 10);
+  $('prVer').textContent = CFG.VERSION; $('verTxt').textContent = CFG.VERSION;
+  $('waBtn').style.display = OWNER.WA_NUMBER ? 'block' : 'none';
+  $('leadWrap').style.display = OWNER.LEAD_WEBHOOK ? 'block' : 'none';
+}
+
+/* ---------- share / lead / beacon ---------- */
+function shareUrl() {
+  const r = RESULT, p = new URLSearchParams();
+  p.set('t', `${TOWN.name}|${TOWN.lat.toFixed(4)}|${TOWN.lon.toFixed(4)}`);
+  p.set('g', r.goal); p.set('k', r.kwhM); p.set('h', r.hours); p.set('p', Math.round(r.pct));
+  p.set('w', r.panelW); p.set('r', r.tariffR);
+  p.set('a', appState().filter(a => a.on).map(a => a.id).join('.'));
+  if (state.battStarter) p.set('s', '1');
+  return location.origin + location.pathname + '?' + p.toString();
+}
+$('shareBtn').onclick = async () => {
+  const url = shareUrl();
+  beacon('share', {});
+  if (navigator.share) { try { await navigator.share({ title: 'My solar spec — ' + TOWN.name, url }); return; } catch (e) {} }
+  try { await navigator.clipboard.writeText(url); $('shareBtn').textContent = '✔ Link copied'; setTimeout(() => $('shareBtn').textContent = 'Copy / share link', 2500); }
+  catch (e) { prompt('Copy this link:', url); }
+};
+$('waBtn').onclick = () => {
+  const r = RESULT;
+  const txt = `☀ My solar spec for ${TOWN.name}:\n${r.panels}× ${r.panelW} W panels (${r.panelWKw.toFixed(1)} kWp)\n${r.inverter.cls} kW hybrid inverter\n${r.battModules ? r.battModules + '× 5.12 kWh lithium (' + r.battInstalledKwh.toFixed(1) + ' kWh)' : 'battery: add later'}\nIndicative: ${fmtR(r.costs.total)}±15%\nSized on ${r.worstMonth.name} sun (${r.worstMonth.psh.toFixed(1)} PSH). Build your own: ${shareUrl()}`;
+  beacon('wa_share', {});
+  window.open(`https://wa.me/${OWNER.WA_NUMBER}?text=${encodeURIComponent(txt)}`, '_blank');
+};
+$('consent').addEventListener('change', e => $('leadSubmit').disabled = !e.target.checked);
+$('leadSubmit').onclick = async () => {
+  const name = $('leadName').value.trim(), phone = $('leadPhone').value.trim();
+  const e = $('leadErr'); e.style.display = 'none';
+  if (!name || !/^0\d{9}$/.test(phone.replace(/\s/g, ''))) { e.textContent = 'Name and a valid 10-digit number (e.g. 0821234567) needed.'; e.style.display = 'block'; return; }
+  try {
+    await fetch(OWNER.LEAD_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, spec: { town: TOWN.name, goal: RESULT.goal, panels: RESULT.panels, panelW: RESULT.panelW, inverterKw: RESULT.inverter.cls, battKwh: RESULT.battInstalledKwh, kwhM: RESULT.kwhM }, ts: Date.now() }) });
+    $('leadSubmit').textContent = '✔ Sent — installers will WhatsApp you'; $('leadSubmit').disabled = true;
+    beacon('lead', { town: TOWN.name });
+  } catch (err) { e.textContent = 'Could not send — try the WhatsApp button instead.'; e.style.display = 'block'; }
+};
+function beacon(event, data) {
+  if (!OWNER.ANALYTICS_WEBHOOK) return;
+  try { fetch(OWNER.ANALYTICS_WEBHOOK, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event, ...data, ts: Date.now(), v: CFG.VERSION }), keepalive: true }); } catch (e) {}
+}
+
+/* ---------- state / url ---------- */
+function save() {
+  const r = RESULT ? { goal: RESULT.goal, kwhM: RESULT.kwhM, pct: RESULT.pct } : {};
+  localStorage.setItem(LS_KEY, JSON.stringify({ ...state, ...r, tariff: $('tariff').value, panelW: $('panelW').value }));
+}
+function updateUrl() { try { history.replaceState(null, '', shareUrl()); } catch (e) {} }
+function restore() {
+  if (state.tariff) $('tariff').value = state.tariff;
+  if (state.panelW) $('panelW').value = state.panelW;
+  $('cPanel').value = CFG.COSTS.panelR; $('cInv').value = CFG.COSTS.invPerKwR; $('cBatt').value = CFG.COSTS.battPerKwhR; $('cBos').value = CFG.COSTS.bosBaseR;
+  if (state.town) pick(state.town);
+  renderAppliances();
+}
+['cPanel','cInv','cBatt','cBos'].forEach(id => $(id).addEventListener('change', () => RESULT && run()));
+
+/* ---------- boot: URL params override saved state ---------- */
+(async function boot() {
+  const q = new URLSearchParams(location.search);
+  if (q.get('t')) {
+    const [name, lat, lon] = q.get('t').split('|');
+    await TOWNS_READY; // shared links must resolve against the static DB, not stale URL coords
+    if (TOWNS_DB) { const t = TOWNS_DB.towns.find(x => x.n === name); if (t) pick({ name: t.n, admin1: t.p, lat: t.y, lon: t.x, db: true }); }
+    if (!TOWN) pick({ name, admin1: 'South Africa', lat: +lat, lon: +lon, db: false });
+    if (q.get('g')) $('goal').value = q.get('g'); $('goal').dispatchEvent(new Event('change'));
+    if (q.get('k')) { $('kwh').value = q.get('k'); }
+    if (q.get('h')) { hours = +q.get('h'); $('hourChips').querySelectorAll('.chip').forEach(c => c.classList.toggle('on', +c.dataset.h === hours)); }
+    if (q.get('p')) $('pct').value = q.get('p');
+    if (q.get('r')) $('tariff').value = q.get('r');
+    if (q.get('w')) $('panelW').value = q.get('w');
+    if (q.get('a')) q.get('a').split('.').forEach(id => { if (APPLIANCES.some(a => a.id === id)) state.apps[id] = { ...(state.apps[id] || {}), on: true }; });
+    state.battStarter = q.get('s') === '1';
+    renderAppliances();
+    run();
+  } else restore();
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  }
+})();
+
+</script>
+</body>
+</html>
