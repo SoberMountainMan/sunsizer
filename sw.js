@@ -2,7 +2,7 @@
    offline fallback. Cache-first for JS let a stale engine.js pair with a
    fresh index.html after an update (stale-shell bug, saw it as a wrong
    payback figure). The shell is tiny; always fetching it is cheap. */
-const CACHE = 'ssza-v0.9.8';
+const CACHE = 'ssza-v0.9.9';
 const SHELL = ['./', './index.html', './engine.js', './manifest.webmanifest', './icon.svg'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

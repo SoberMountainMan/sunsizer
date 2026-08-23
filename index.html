@@ -302,6 +302,7 @@ footer.site a:hover{color:var(--acc)}
   <div class="stat"><b id="stBatt"></b><span>battery</span></div>
   <div class="stat"><b id="stCost"></b><span>installed est.*</span></div>
  </div>
+ <div class="printonly" id="prAssumptions"></div>
  <div id="starterWrap" style="display:none" class="chips">
   <button type="button" class="chip" id="starterBtn"></button>
  </div>
@@ -664,6 +665,11 @@ function render() {
      <tr><td>Battery chain</td><td>load ÷ (0.90 DoD × 0.96 inverter) → ${r.battModules || 0} × 5.12 kWh 51.2 V modules</td></tr>
     </table>`;
   $('prTown').textContent = TOWN.name; $('prDate').textContent = new Date().toISOString().slice(0, 10);
+  const onApps = appState().filter(a => a.on);
+  $('prAssumptions').innerHTML =
+    `<p><b>Assumed essential loads</b> (${Math.round(r.divPeak)} W diversified · ${Math.round(r.essKwhDay * 10) / 10} kWh/day): ` +
+    (onApps.length ? onApps.map(a => `${a.n} ${a.w} W × ${a.h} h`).join(' · ') : 'none ticked') +
+    `</p><p><b>To confirm on-site before quoting</b> (not modelled): supply phase — single-phase assumed unless marked 3φ above · roof type, orientation, pitch & shading · usable roof area (≈${(r.panels * 2.6).toFixed(0)} m² for ${r.panels} panels) · geyser element size & any existing solar/gas heating · DB condition, earthing & COC status · existing inverter/battery if this is an expansion · body-corporate or estate approval requirements · budget ceiling.</p>`;
   $('prVer').textContent = CFG.VERSION; $('verTxt').textContent = CFG.VERSION;
   $('waBtn').style.display = OWNER.WA_NUMBER ? 'block' : 'none';
   $('leadWrap').style.display = OWNER.LEAD_WEBHOOK ? 'block' : 'none';
