@@ -9,7 +9,7 @@
    ============================================================ */
 
 const CFG = {
-  VERSION: '0.9.0',
+  VERSION: '0.9.10',
   PANEL_W_DEFAULT: 590,
   // Single-phase hybrid classes sold in SA (Deye/Sunsynk/Goodwe style ladder)
   LADDER_1P: [3.6, 5, 6, 8, 10, 12],

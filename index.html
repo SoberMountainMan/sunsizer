@@ -669,7 +669,7 @@ function render() {
   $('prAssumptions').innerHTML =
     `<p><b>Assumed essential loads</b> (${Math.round(r.divPeak)} W diversified · ${Math.round(r.essKwhDay * 10) / 10} kWh/day): ` +
     (onApps.length ? onApps.map(a => `${a.n} ${a.w} W × ${a.h} h`).join(' · ') : 'none ticked') +
-    `</p><p><b>To confirm on-site before quoting</b> (not modelled): supply phase — single-phase assumed unless marked 3φ above · roof type, orientation, pitch & shading · usable roof area (≈${(r.panels * 2.6).toFixed(0)} m² for ${r.panels} panels) · geyser element size & any existing solar/gas heating · DB condition, earthing & COC status · existing inverter/battery if this is an expansion · body-corporate or estate approval requirements · budget ceiling.</p>`;
+    `</p><p><b>To confirm on-site before quoting</b> (not modelled): supply phase & DB board condition — single-phase assumed unless marked 3φ above · roof type, age & condition (brittle/corroded sheeting, tile fragility) · orientation, pitch · chimney, vents, aerials or other obstructions · tree shading now AND winter/seasonal growth · usable roof area (≈${(r.panels * 2.6).toFixed(0)} m² for ${r.panels} panels) · geyser element size & any existing solar/gas heating · earthing & COC status · existing inverter/battery if this is an expansion · body-corporate or estate approval requirements · budget ceiling.</p>`;
   $('prVer').textContent = CFG.VERSION; $('verTxt').textContent = CFG.VERSION;
   $('waBtn').style.display = OWNER.WA_NUMBER ? 'block' : 'none';
   $('leadWrap').style.display = OWNER.LEAD_WEBHOOK ? 'block' : 'none';
