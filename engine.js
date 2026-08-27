@@ -9,7 +9,7 @@
    ============================================================ */
 
 const CFG = {
-  VERSION: '0.9.10',
+  VERSION: '0.9.11',
   PANEL_W_DEFAULT: 590,
   // Single-phase hybrid classes sold in SA (Deye/Sunsynk/Goodwe style ladder)
   LADDER_1P: [3.6, 5, 6, 8, 10, 12],
@@ -103,16 +103,30 @@ function enrichMonths(monthsRaw) {
 
 /* ---- inverter ladder ------------------------------------------- */
 
-function snapInverter(kwNeedCont, surgeNeedW) {
+function snapInverter(kwNeedCont, surgeNeedW, phase) {
   let cls = CFG.LADDER_1P.find(k => k >= kwNeedCont);
   let threePhase = false;
-  if (cls === undefined) {
-    cls = CFG.LADDER_3P.find(k => k >= kwNeedCont);
+  let capNote = null;
+  if (phase === '1p') {
+    // Declared single-phase supply: never emit a 3φ spec, even for big loads
+    if (cls === undefined) {
+      cls = CFG.LADDER_1P[CFG.LADDER_1P.length - 1];
+      capNote = 'Your load looks bigger than a single-phase supply can carry (~12 kW is the retail limit). Your installer will confirm supply amperage and may discuss load management or a supply upgrade.';
+    }
+  } else if (phase === '3p') {
+    // Declared three-phase supply: mark 3φ at any size (3φ hybrids sell from ~5 kW in SA)
     threePhase = true;
+    if (cls === undefined) cls = CFG.LADDER_3P.find(k => k >= kwNeedCont);
+  } else {
+    // Not sure: single-phase ladder first, 3φ from 16 kW up
+    if (cls === undefined) {
+      cls = CFG.LADDER_3P.find(k => k >= kwNeedCont);
+      threePhase = true;
+    }
   }
   if (cls === undefined) cls = Math.ceil(kwNeedCont / 5) * 5;
   const surgeOk = !surgeNeedW || (cls * 1000 * CFG.INV_SURGE_FACTOR >= surgeNeedW);
-  return { cls, threePhase, surgeOk };
+  return { cls, threePhase, surgeOk, capNote };
 }
 
 /* ---- main sizing ------------------------------------------------
@@ -182,7 +196,9 @@ function sizeSystem(inp) {
   const kwActual = panels * panelW / 1000;
   const battModules = battNominalKwh > 0 ? Math.max(1, Math.ceil(battNominalKwh / CFG.BATT_MODULE_KWH)) : 0;
   const battInstalledKwh = battModules * CFG.BATT_MODULE_KWH;
-  const inv = snapInverter(invKwNeed, surgeNeedW);
+  const inv = snapInverter(invKwNeed, surgeNeedW, inp.phase);
+  if (inv.capNote) notes.push(inv.capNote);
+  if (inp.phase === '3p') notes.push('Supply declared three-phase — spec assumes a three-phase hybrid inverter. Installer to confirm supply amperage and main breaker size on-site.');
   if (!inv.surgeOk) notes.push('Motor start-up surge is tight on a ' + inv.cls + ' kW unit — your installer may specify a soft-start kit or step up one size.');
   const dcAcRatio = inv.cls > 0 ? kwActual / inv.cls : 0;
   if (dcAcRatio > 1.5) notes.push('Array-to-inverter ratio is high (' + dcAcRatio.toFixed(2) + '). Fine for winter-biased designs; expect summer midday clipping.');
@@ -213,7 +229,7 @@ function sizeSystem(inp) {
   const juneGen = juneIdx >= 0 ? genM[juneIdx].genKwh : null;
 
   return {
-    version: CFG.VERSION, goal: inp.goal, kwhM, hours, pct: pct * 100, tariffR, panelW,
+    version: CFG.VERSION, goal: inp.goal, phase: inp.phase || 'unsure', kwhM, hours, pct: pct * 100, tariffR, panelW,
     essKwhDay, contPeakRaw, divPeak, surgeNeedW,
     pshAnnual, worstMonth: { name: worst.name, psh: worst.psh, derate: worst.derate, tavg: worst.tavg },
     annualYieldPerKwp,

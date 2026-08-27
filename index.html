@@ -256,6 +256,13 @@ footer.site a:hover{color:var(--acc)}
    <small class="hint">We convert using the tariff below</small></div>
   <div id="pctWrap" style="display:none"><label>Offset target (%)</label><input type="number" id="pct" value="70" min="10" max="100"></div>
  </div>
+ <label>Home electricity supply</label>
+ <select id="phase" aria-label="Home electricity supply">
+  <option value="unsure" selected>Not sure — my installer can check</option>
+  <option value="1p">Single-phase</option>
+  <option value="3p">Three-phase</option>
+ </select>
+ <small class="hint">Check your DB board: one wide main switch = single-phase; three interlocked switches = three-phase. Larger homes and smallholdings are often three-phase.</small>
  <details id="adv"><summary>⚙ Advanced — tariff, panel size, appliance detail</summary>
   <div class="dbody">
    <div class="row">
@@ -595,7 +602,7 @@ async function run() {
     if (!months) months = await liveMonths();
     const kwhM = MODE === 'kwh' ? +$('kwh').value : Math.round(+$('rand').value / (+$('tariff').value || CFG.TARIFF_DEFAULT_R));
     RESULT = sizeSystem({
-      goal: $('goal').value, kwhM, hours, pct: +$('pct').value,
+      goal: $('goal').value, phase: $('phase').value, kwhM, hours, pct: +$('pct').value,
       tariffR: +$('tariff').value, panelW: +$('panelW').value,
       apps: appState(), months, battStarter: state.battStarter,
       costOverrides: {
@@ -627,7 +634,7 @@ function render() {
   const [h1, h2] = HERO[r.goal](r);
   $('resHero').textContent = h1; $('resSub').textContent = h2;
   $('stKw').textContent = r.panelWKw.toFixed(1) + ' kWp'; $('stPanels').textContent = r.panels + '× ' + r.panelW + ' W';
-  $('stInv').textContent = r.inverter.cls + ' kW' + (r.inverter.threePhase ? ' 3φ' : '');
+  $('stInv').textContent = r.inverter.cls + ' kW' + (r.inverter.threePhase ? ' 3φ' : ' 1φ');
   $('stBatt').textContent = r.battModules ? r.battModules + '× 5.12 kWh' : 'add later';
   $('stCost').textContent = fmtR(r.costs.total * 0.85) + '–' + fmtR(r.costs.total * 1.15);
   $('sunTown').textContent = TOWN.name;
@@ -666,10 +673,13 @@ function render() {
     </table>`;
   $('prTown').textContent = TOWN.name; $('prDate').textContent = new Date().toISOString().slice(0, 10);
   const onApps = appState().filter(a => a.on);
+  const phaseLine = r.phase === '3p' ? 'supply declared <b>THREE-PHASE</b> by the homeowner'
+    : r.phase === '1p' ? 'supply declared <b>SINGLE-PHASE</b> by the homeowner'
+    : 'supply phase not confirmed by the homeowner — single-phase assumed unless shown 3φ above';
   $('prAssumptions').innerHTML =
     `<p><b>Assumed essential loads</b> (${Math.round(r.divPeak)} W diversified · ${Math.round(r.essKwhDay * 10) / 10} kWh/day): ` +
     (onApps.length ? onApps.map(a => `${a.n} ${a.w} W × ${a.h} h`).join(' · ') : 'none ticked') +
-    `</p><p><b>To confirm on-site before quoting</b> (not modelled): supply phase & DB board condition — single-phase assumed unless marked 3φ above · roof type, age & condition (brittle/corroded sheeting, tile fragility) · orientation, pitch · chimney, vents, aerials or other obstructions · tree shading now AND winter/seasonal growth · usable roof area (≈${(r.panels * 2.6).toFixed(0)} m² for ${r.panels} panels) · geyser element size & any existing solar/gas heating · earthing & COC status · existing inverter/battery if this is an expansion · body-corporate or estate approval requirements · budget ceiling.</p>`;
+    `</p><p><b>To confirm on-site before quoting</b> (not modelled): ${phaseLine} · supply Eskom or municipal · supply amperage & main breaker size · prepaid or conventional meter · existing SSEG registration · DB board condition & space for new breakers · cable sizes, isolators, earthing, surge protection · roof type, age & condition (brittle/corroded sheeting, tile fragility) · orientation, pitch · chimney, vents, aerials or other obstructions · tree shading now AND winter/seasonal growth · usable roof area (≈${(r.panels * 2.6).toFixed(0)} m² for ${r.panels} panels) · geyser element size & any existing solar/gas heating · earthing & COC status · existing inverter/battery if this is an expansion · body-corporate or estate approval requirements · budget ceiling.</p>`;
   $('prVer').textContent = CFG.VERSION; $('verTxt').textContent = CFG.VERSION;
   $('waBtn').style.display = OWNER.WA_NUMBER ? 'block' : 'none';
   $('leadWrap').style.display = OWNER.LEAD_WEBHOOK ? 'block' : 'none';
@@ -681,6 +691,7 @@ function shareUrl() {
   p.set('t', `${TOWN.name}|${TOWN.lat.toFixed(4)}|${TOWN.lon.toFixed(4)}`);
   p.set('g', r.goal); p.set('k', r.kwhM); p.set('h', r.hours); p.set('p', Math.round(r.pct));
   p.set('w', r.panelW); p.set('r', r.tariffR);
+  if (r.phase && r.phase !== 'unsure') p.set('ph', r.phase);
   p.set('a', appState().filter(a => a.on).map(a => a.id).join('.'));
   if (state.battStarter) p.set('s', '1');
   return location.origin + location.pathname + '?' + p.toString();
@@ -719,17 +730,19 @@ function beacon(event, data) {
 /* ---------- state / url ---------- */
 function save() {
   const r = RESULT ? { goal: RESULT.goal, kwhM: RESULT.kwhM, pct: RESULT.pct } : {};
-  localStorage.setItem(LS_KEY, JSON.stringify({ ...state, ...r, tariff: $('tariff').value, panelW: $('panelW').value }));
+  localStorage.setItem(LS_KEY, JSON.stringify({ ...state, ...r, tariff: $('tariff').value, panelW: $('panelW').value, phase: $('phase').value }));
 }
 function updateUrl() { try { history.replaceState(null, '', shareUrl()); } catch (e) {} }
 function restore() {
   if (state.tariff) $('tariff').value = state.tariff;
   if (state.panelW) $('panelW').value = state.panelW;
+  if (state.phase) $('phase').value = state.phase;
   $('cPanel').value = CFG.COSTS.panelR; $('cInv').value = CFG.COSTS.invPerKwR; $('cBatt').value = CFG.COSTS.battPerKwhR; $('cBos').value = CFG.COSTS.bosBaseR;
   if (state.town) pick(state.town);
   renderAppliances();
 }
 ['cPanel','cInv','cBatt','cBos'].forEach(id => $(id).addEventListener('change', () => RESULT && run()));
+$('phase').addEventListener('change', () => { save(); if (RESULT) run(); });
 
 /* ---------- boot: URL params override saved state ---------- */
 (async function boot() {
@@ -745,6 +758,7 @@ function restore() {
     if (q.get('p')) $('pct').value = q.get('p');
     if (q.get('r')) $('tariff').value = q.get('r');
     if (q.get('w')) $('panelW').value = q.get('w');
+    if (q.get('ph')) $('phase').value = q.get('ph');
     if (q.get('a')) q.get('a').split('.').forEach(id => { if (APPLIANCES.some(a => a.id === id)) state.apps[id] = { ...(state.apps[id] || {}), on: true }; });
     state.battStarter = q.get('s') === '1';
     renderAppliances();
